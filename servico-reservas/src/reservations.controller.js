@@ -16,8 +16,35 @@ exports.criarReserva = async (req, res) => {
     try {
         const dadosReserva = req.body;
         const novaReserva = await service.criarReserva(dadosReserva);
-        res.status(200).json(novaReserva);
+        res.status(201).json(novaReserva);
     } catch (error) {
+        if(error.message.includes('Capacidade esgotada') || error.message.includes('Recursos não encontrado')) {
+            return res.status(409).json({
+                error: error.message
+            })
+        } else {
+            res.status(500).json({
+                error: 'Erro ao criar reserva',
+                detail: error.message,
+            })
+        }
+    }
+}
 
+exports.deletarReserva = async (req, res) => {
+    try {
+        const { id } = req.param;
+        await service.deletarReserva(id);
+        return res.status(204).send();
+    } catch (error) {
+        if(error.message.includes('Reserva nâo encontrada')) {
+            return res.status(404).json({
+                error: error.message
+            })
+        } else {
+            res.status(500).json({
+                erro: 'Erro ao deletar reserva', details: error.message
+            });
+        }
     }
 }

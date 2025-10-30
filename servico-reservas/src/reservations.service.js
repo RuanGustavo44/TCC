@@ -20,3 +20,17 @@ exports.criarReserva = (dadosReserva) => {
         return novaReserva;
     })
 }
+
+exports.deletarReserva = async (id) => {
+    return knex.transaction(async (trx) => {
+        const reserva = await repository.findReservaById(id, trx);
+        if(!reserva)
+            throw new Error('Reserva não encontrada')
+
+        await repository.deleteReserva(id, trx);
+        return {
+            message: 'Reserva deletada com sucesso'
+        }
+    })
+
+}
