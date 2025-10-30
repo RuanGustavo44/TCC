@@ -1,6 +1,8 @@
+// noinspection JSCheckFunctionSignatures
+
 const express = require('express');
 const swaggerUi = require('swagger-ui-express')
-const swaggerSpec = require('swaggerConfig')
+const swaggerSpec = require('./swaggerConfig')
 const app = express();
 const routes = require('./src/reservations.routes');
 

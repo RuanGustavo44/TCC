@@ -11,3 +11,13 @@ exports.handleCountReservations = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+exports.criarReserva = async (req, res) => {
+    try {
+        const dadosReserva = req.body;
+        const novaReserva = await service.criarReserva(dadosReserva);
+        res.status(200).json(novaReserva);
+    } catch (error) {
+
+    }
+}
